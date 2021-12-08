@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import model.AllCurrencies;
 import model.Currency;
 import view.MoneyCalculatorView;
+import view.MoneyCalculatorView;
 
 public class Controller {
     
@@ -18,7 +19,7 @@ public class Controller {
 
     public void setView() {
         ArrayList<Currency> currencies = model.getAllCurrencies();
-        view.setAllCurrencies(currencies);
+        view.setComboBox(currencies);
         view.execute();
     }
 
@@ -28,6 +29,9 @@ public class Controller {
     
     public static String calculateResult(float amount,float exchangeRate){
         String result = String.valueOf(amount*exchangeRate);
+        if(result.length()>9){
+            result = result.substring(0, 9);
+        }
         return result;
     }
     

@@ -1,115 +1,139 @@
 package view;
 
 import controller.Controller;
+import java.awt.Dimension;
+import java.awt.FlowLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.util.ArrayList;
 import java.util.Iterator;
+import javax.swing.BoxLayout;
+import javax.swing.JButton;
 import javax.swing.JComboBox;
+import javax.swing.JComponent;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JTextField;
 import model.Currency;
 import view.persistance.ExchangeRates;
 
-public class MoneyCalculatorView extends javax.swing.JFrame {
+
+public class MoneyCalculatorView extends javax.swing.JFrame{
     
     private JComboBox cbCurrency1;
     private JComboBox cbCurrency2;
-
+    
+    private JPanel panelUp;
+    private JPanel panelDown;
+    private JPanel panelFrom;
+    private JPanel panelTo;
+    private JPanel panelAmount;
+    private JPanel panelResult;
+    
+    private JLabel labelAmount;
+    private JLabel labelFrom;
+    private JLabel labelTo;
+    private JLabel labelResult;
+    
+    private JTextField jTextFieldAmount;
+    private JTextField jTextFieldResult;
+    
+    private JButton buttonConvert;
+    
+    
+    
     public MoneyCalculatorView() {
         initComponents();
-    }
-
-    public void execute(){
-        setVisible(true);
+        
+        this.setTitle("Currency Converter");
     }
     
-    @SuppressWarnings("unchecked")
-    // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
+    public void execute(){
+        this.setVisible(true);
+    }
+
     private void initComponents() {
-
-        jPanel1 = new javax.swing.JPanel();
-        amount = new javax.swing.JPanel();
-        jLabel1 = new javax.swing.JLabel();
-        amountTF = new javax.swing.JTextField();
-        from = new javax.swing.JPanel();
-        jLabel2 = new javax.swing.JLabel();
-        to = new javax.swing.JPanel();
-        jLabel3 = new javax.swing.JLabel();
-        result = new javax.swing.JPanel();
-        jLabel4 = new javax.swing.JLabel();
-        resultTF = new javax.swing.JTextField();
-        jPanel2 = new javax.swing.JPanel();
-        Convert = new javax.swing.JButton();
-
+        
+        getContentPane().setLayout(new BoxLayout(getContentPane(), BoxLayout.Y_AXIS));
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setMinimumSize(new java.awt.Dimension(500, 200));
-        setPreferredSize(new java.awt.Dimension(500, 200));
-        getContentPane().setLayout(new javax.swing.BoxLayout(getContentPane(), javax.swing.BoxLayout.Y_AXIS));
-
-        jPanel1.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.CENTER, 50, 5));
-
-        amount.setLayout(new javax.swing.BoxLayout(amount, javax.swing.BoxLayout.Y_AXIS));
-
-        jLabel1.setText("Amount");
-        amount.add(jLabel1);
-
-        amountTF.setText("0");
-        amount.add(amountTF);
-
-        jPanel1.add(amount);
-
-        from.setLayout(new javax.swing.BoxLayout(from, javax.swing.BoxLayout.Y_AXIS));
-
-        jLabel2.setText("From:");
-        from.add(jLabel2);
-
-        jPanel1.add(from);
-
-        to.setLayout(new javax.swing.BoxLayout(to, javax.swing.BoxLayout.Y_AXIS));
-
-        jLabel3.setText("To:");
-        to.add(jLabel3);
-
-        jPanel1.add(to);
-
-        result.setLayout(new javax.swing.BoxLayout(result, javax.swing.BoxLayout.Y_AXIS));
-
-        jLabel4.setText("Result");
-        result.add(jLabel4);
-
-        resultTF.setEditable(false);
-        resultTF.setMinimumSize(new java.awt.Dimension(40, 20));
-        resultTF.setPreferredSize(new java.awt.Dimension(40, 20));
-        result.add(resultTF);
-
-        jPanel1.add(result);
-
-        getContentPane().add(jPanel1);
-
-        Convert.setText("Convert");
-        Convert.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                ConvertMouseClicked(evt);
+        setMinimumSize(new Dimension(500, 150));
+        setPreferredSize(new Dimension(500, 150));
+        setResizable(false);
+        
+        
+        panelUp = new JPanel();
+        panelUp.setLayout(new FlowLayout(FlowLayout.CENTER,30, 5));
+        panelDown = new JPanel();
+        panelDown.setLayout(new FlowLayout());
+        panelFrom = new JPanel();
+        panelFrom.setLayout(new BoxLayout(panelFrom, BoxLayout.Y_AXIS));
+        panelTo = new JPanel();
+        panelTo.setLayout(new BoxLayout(panelTo, BoxLayout.Y_AXIS));
+        panelAmount = new JPanel();
+        panelAmount.setLayout(new BoxLayout(panelAmount, BoxLayout.Y_AXIS));
+        panelResult = new JPanel();
+        panelResult.setLayout(new BoxLayout(panelResult, BoxLayout.Y_AXIS));
+        
+        labelAmount = new JLabel("Amount:");
+        labelFrom = new JLabel("From:");
+        labelTo = new JLabel("To:");
+        labelResult = new JLabel("Result:");
+        
+        jTextFieldAmount = new JTextField("0");
+        jTextFieldAmount.setPreferredSize(new Dimension(20,24));
+        addFunctionsEscAndEnter(jTextFieldAmount);
+        
+        jTextFieldResult = new JTextField("0.0");
+        jTextFieldResult.setEditable(false);
+        jTextFieldResult.setPreferredSize(new Dimension(60,24));
+        
+        buttonConvert = new JButton("Convert");
+        
+        buttonConvert.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                convertCurrencies();
             }
         });
-        jPanel2.add(Convert);
-
-        getContentPane().add(jPanel2);
-
+        addFunctionsEscAndEnter(buttonConvert);
+        
+        panelAmount.add(labelAmount);
+        panelAmount.add(jTextFieldAmount);
+        
+        panelFrom.add(labelFrom);
+        
+        panelTo.add(labelTo);
+        
+        panelResult.add(labelResult);
+        panelResult.add(jTextFieldResult);
+        
+        
+        panelUp.add(panelAmount);
+        panelUp.add(panelFrom);
+        panelUp.add(panelTo);
+        panelUp.add(panelResult);
+        
+        panelDown.add(buttonConvert);
+        
+        getContentPane().add(panelUp);
+        getContentPane().add(panelDown);
+        
+        
+        
         pack();
-    }// </editor-fold>//GEN-END:initComponents
+        
+        
+        
+        
+    }
 
-    private void ConvertMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ConvertMouseClicked
-     
-        float rate = ExchangeRates.exchangeRate((String)cbCurrency1.getSelectedItem(),
-                (String)cbCurrency2.getSelectedItem());
-        float amount = Float.parseFloat(amountTF.getText());
-        resultTF.setText(Controller.calculateResult(amount,rate));
-        
-    }//GEN-LAST:event_ConvertMouseClicked
-
-    public void setAllCurrencies(ArrayList<Currency> currencies) {
-        
-        
+    public void setComboBox(ArrayList<Currency> currencies) {
         cbCurrency1 = new JComboBox();
+        addFunctionsEscAndEnter(cbCurrency1);
         cbCurrency2 = new JComboBox();
+        addFunctionsEscAndEnter(cbCurrency2);
         
         
         Iterator <Currency> it = currencies.iterator();
@@ -119,23 +143,43 @@ public class MoneyCalculatorView extends javax.swing.JFrame {
             cbCurrency2.addItem(currentCurrency.getCurrencyInitials());
         }
         
-        from.add(cbCurrency1);
-        to.add(cbCurrency2);
+        panelFrom.add(cbCurrency1);
+        panelTo.add(cbCurrency2);
+
+    }
+    
+    private void convertCurrencies(){
+        float rate = ExchangeRates.exchangeRate((String)cbCurrency1.getSelectedItem(),
+        (String)cbCurrency2.getSelectedItem());
+        float amount = Float.parseFloat(jTextFieldAmount.getText());
+        jTextFieldResult.setText(Controller.calculateResult(amount,rate));
     }
 
-    // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton Convert;
-    private javax.swing.JPanel amount;
-    private javax.swing.JTextField amountTF;
-    private javax.swing.JPanel from;
-    private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabel4;
-    private javax.swing.JPanel jPanel1;
-    private javax.swing.JPanel jPanel2;
-    private javax.swing.JPanel result;
-    private javax.swing.JTextField resultTF;
-    private javax.swing.JPanel to;
-    // End of variables declaration//GEN-END:variables
+    private void addFunctionsEscAndEnter(JComponent component) {
+        component.addKeyListener(new KeyListener() {
+            @Override
+            public void keyTyped(KeyEvent e) {
+                
+            }
+
+            @Override
+            public void keyPressed(KeyEvent e) {
+                if(e.getKeyCode()==KeyEvent.VK_ENTER){
+                    convertCurrencies();
+                }
+                if(e.getKeyCode()==KeyEvent.VK_ESCAPE){
+                    System.exit(0);
+                }
+            }
+
+            @Override
+            public void keyReleased(KeyEvent e) {
+                
+            }
+        });
+    }
+    
+    
+    
+    
 }

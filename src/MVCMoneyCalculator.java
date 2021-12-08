@@ -1,6 +1,7 @@
 import controller.Controller;
 import model.AllCurrencies;
 import view.MoneyCalculatorView;
+import view.MoneyCalculatorView;
 
 public class MVCMoneyCalculator {
     
