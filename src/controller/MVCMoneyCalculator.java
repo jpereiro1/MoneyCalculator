@@ -1,3 +1,5 @@
+package controller;
+
 import controller.Controller;
 import model.AllCurrencies;
 import view.MoneyCalculatorView;
