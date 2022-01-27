@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import model.AllCurrencies;
 import model.Currency;
 import view.MoneyCalculatorView;
-import view.MoneyCalculatorView;
 
 public class Controller {
     

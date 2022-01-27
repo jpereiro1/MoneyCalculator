@@ -11,7 +11,7 @@ public class AllCurrencies {
     private final ArrayList<Currency> allCurrencies;
 
     public AllCurrencies() {
-        allCurrencies = new ArrayList<Currency>();
+        allCurrencies = new ArrayList<>();
     }
     
     public void loadAllCurrencies(){
